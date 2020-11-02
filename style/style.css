@@ -1,13 +1,13 @@
 .blocks{
-        background-color: #007593;
-        width: 25%;
-        border: 1px #000 solid;
-        border-radius: 7px;
+    background-color: #007593;
+    width: 25%;
+    border: 1px #000 solid;
+    border-radius: 7px;
     }
-    .block{
-        padding: 5px;
-        border-bottom: 1px dotted #000
-    }
-    .done{
-        background-color: green;
-    }
+.block{
+    padding: 5px;
+    border-bottom: 1px dotted #000
+}
+.done{
+    background-color: green;
+}

@@ -11,9 +11,10 @@ include_once 'header.php';
         <input placeholder="Пароль" type="password" name="password">
         <input type="submit" id="submit_enter" value="Отправить">
     </form>
+
+    <!-- Обработка ошибок -->
     <?if (!empty($_SESSION["error"])) {
     echo "<script>alert('".$_SESSION["error"]."')</script>";
     unset($_SESSION["error"]);
     };?>
-    
 </body>

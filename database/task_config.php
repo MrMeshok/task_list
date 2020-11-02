@@ -5,6 +5,7 @@ date_default_timezone_set('Etc/GMT-4');
 $created_at = date('Y/m/d H:i:s', time());
 $user_id = $_SESSION['user_id'];
 
+// Обработка нажатий на верхние кнопки
 if ($_POST["button"]) {
     switch ($_POST["button"]) {
         case 'add':
@@ -19,10 +20,10 @@ if ($_POST["button"]) {
         case 'all_done':
             $DB->query("UPDATE `tasks` SET `done` = '1' WHERE `user_id` = $user_id");
             break;
-        
     }
-
 }
+
+// Обработка нажатий кнопок около задач
 if (isset($_POST["delete"])) {
     $task_done = $DB->prepare("DELETE FROM `tasks` WHERE `user_id` = ? and `id` = ?");
     $task_done->execute(array($user_id, $_POST["delete"]));

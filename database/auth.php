@@ -15,7 +15,7 @@ if ($_POST['login'] and $_POST['password']) {
 
     if (password_verify($password, $user['password'])) {
         $check_user_exec = True;
-    } else{
+    } else {
         $check_user_exec = False;
     }
 
@@ -30,7 +30,7 @@ if ($_POST['login'] and $_POST['password']) {
         $_SESSION['auth'] = True;
         $_SESSION['user_id'] = $user['id'];
         header('Location: ../tasks.php');
-    } else{
+    } else {
         $_SESSION['auth'] = False;
         header('Location: ../index.php');
     }
