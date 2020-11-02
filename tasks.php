@@ -1,9 +1,14 @@
 <?php session_start();
+if ($_SESSION["auth"] == True) {
+} else{
+    header("Location: ../index.php");
+}
 $title = "Список задач";
 include_once $_SERVER['DOCUMENT_ROOT'] . '/header.php';
 ?>
 
 <body>
+    <?php echo $_SESSION["auth_error"]; ?>
     <div class="blocks">
         <form id="form" action="database/task_config.php" method="POST">
             <input type="text" name="task"><br>
@@ -31,5 +36,11 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/header.php';
         }
         ?>
     </div>
+    <br>
+    <a href="database/exit.php">Выйти из аккаунта</a>
+    <?if (!empty($_SESSION["error"])) {
+    echo "<script>alert('".$_SESSION["error"]."')</script>";
+    unset($_SESSION["auth_error"]);
+    };?>
 </body>
 </html>

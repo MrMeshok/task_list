@@ -11,8 +11,10 @@ $opt = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
-$DB = new PDO($dsn, $user, $pass, $opt);
 
+$DB = new PDO($dsn, $user, $pass, $opt);
+$DB->setAttribute(PDO::ATTR_EMULATE_PREPARES, 0);
+$DB->setAttribute(PDO::MYSQL_ATTR_DIRECT_QUERY, 0);
 // $stmt = $pdo->query('SELECT login FROM users');
 // while ($row = $stmt->fetch())
 // {
