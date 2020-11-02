@@ -1,41 +1,38 @@
 <?php 
 session_start();
-if (!isset($_SESSION["tasks"])) {
-    $_SESSION["tasks"] = array();
-};
-if (!isset($_SESSION["done_tasks"])) {
-    $_SESSION["done_tasks"] = array();
-};
+require 'config.php';
+date_default_timezone_set('Etc/GMT-4');
+$created_at = date('Y/m/d H:i:s', time());
+$user_id = $_SESSION['user_id'];
 
 if ($_POST["button"]) {
     switch ($_POST["button"]) {
         case 'add':
             if ($_POST["task"]) {
-                array_push($_SESSION["tasks"], $_POST["task"]);
+                $add_task = $DB->prepare("INSERT INTO `tasks` (`user_id`, `description`, `created_at`, `done`) VALUES (?, ?, ?, ?)");
+                $add_task->execute(array($user_id, trim($_POST["task"]), $created_at, 0));
             }
             break;
         case 'clear':
-            unset($_SESSION["tasks"]);
-            unset($_SESSION["done_tasks"]);
+            $DB->query("DELETE FROM `tasks` WHERE `user_id` = $user_id");
             break;
         case 'all_done':
-            $_SESSION["done_tasks"] = array();
-            foreach ($_SESSION["tasks"] as $key => $value) {
-                array_push($_SESSION["done_tasks"], $key);
-            }
+            $DB->query("UPDATE `tasks` SET `done` = '1' WHERE `user_id` = $user_id");
             break;
         
     }
-    
+
 }
 if (isset($_POST["delete"])) {
-    unset($_SESSION["tasks"][$_POST["delete"]]);
+    $task_done = $DB->prepare("DELETE FROM `tasks` WHERE `user_id` = ? and `id` = ?");
+    $task_done->execute(array($user_id, $_POST["delete"]));
 }
 if (isset($_POST["done"])) {
-    array_push($_SESSION["done_tasks"], $_POST["done"]);
+    $task_done = $DB->prepare("UPDATE `tasks` SET `done` = '1' WHERE `user_id` = ? and `id` = ?");
+    $task_done->execute(array($user_id, $_POST["done"]));
 }
 if (isset($_POST["not_done"])) {
-    unset($_SESSION["done_tasks"][$_POST["not_done"]]);
+    $task_not_done = $DB->prepare("UPDATE `tasks` SET `done` = '0' WHERE `user_id` = ? and `id` = ?");
+    $task_not_done->execute(array($user_id, $_POST["not_done"]));
 }
-header("Location: index.php");
-?>
+header("Location: ../tasks.php");

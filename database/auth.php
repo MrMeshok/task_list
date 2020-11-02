@@ -27,14 +27,15 @@ if ($_POST['login'] and $_POST['password']) {
     }
 
     if ($add_user_exec or $check_user_exec) {
-        $_SESSION["auth"] = True;
-        header("Location: ../tasks.php");
+        $_SESSION['auth'] = True;
+        $_SESSION['user_id'] = $user['id'];
+        header('Location: ../tasks.php');
     } else{
-        $_SESSION["auth"] = False;
-        header("Location: ../index.php");
+        $_SESSION['auth'] = False;
+        header('Location: ../index.php');
     }
 } else {
-    header("Location: ../index.php");
+    header('Location: ../index.php');
 }
 
 ?>

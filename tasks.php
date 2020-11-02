@@ -1,5 +1,7 @@
 <?php session_start();
 if ($_SESSION["auth"] == True) {
+    require 'database/config.php';
+    $user_id = $_SESSION['user_id']; 
 } else{
     header("Location: ../index.php");
 }
@@ -8,7 +10,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/header.php';
 ?>
 
 <body>
-    <?php echo $_SESSION["auth_error"]; ?>
     <div class="blocks">
         <form id="form" action="database/task_config.php" method="POST">
             <input type="text" name="task"><br>
@@ -19,28 +20,24 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/header.php';
     </div>
     <div class="blocks" style="color: #fff; margin-top: 3px;">
         <div class="block" style="border-bottom: 1px solid #000">Лист заданий</div>
-        <?php 
-        if ($_SESSION["tasks"]) {
-            foreach ($_SESSION["tasks"] as $key => $value) {
-                if ($_SESSION["done_tasks"]) {
-                        if (in_array($key, $_SESSION["done_tasks"])) {
-                            echo '<div id="'.$key.'" class="block done">'.$value.'<button name="delete" value="'.$key.'" form="form">Удалить</button><button name="not_done" value="'.$key2.'" form="form">В работу</button></div>';
-                        }else{
-                        echo '<div id="'.$key.'" class="block">'.$value.'<button name="delete" value="'.$key.'" form="form">Удалить</button><button name="done" value="'.$key.'" form="form">Выполнено</button></div>';
-                        }
-                    
-                }else{
-                    echo '<div id="'.$key.'" class="block">'.$value.'<button name="delete" value="'.$key.'" form="form">Удалить</button><button name="done" value="'.$key.'" form="form">Выполнено</button></div>';
-                }
+        <?
+        $tasks_query = $DB->query("SELECT * FROM `tasks` WHERE `user_id` = $user_id");
+        $tasks = $tasks_query -> fetchAll();
+        foreach ($tasks as $value) {
+            if ($value['done']) {
+                echo '<div class="block done">'.htmlspecialchars($value['description'], ENT_QUOTES, 'UTF-8').'<button name="delete" value="'.$value['id'].'" form="form">Удалить</button><button name="not_done" value="'.$value['id'].'" form="form">В работу</button></div>';
+            }else{
+                echo '<div class="block">'.htmlspecialchars($value['description'], ENT_QUOTES, 'UTF-8').'<button name="delete" value="'.$value['id'].'" form="form">Удалить</button><button name="done" value="'.$value['id'].'" form="form">Выполнено</button></div>';
             }
         }
+        
         ?>
     </div>
     <br>
     <a href="database/exit.php">Выйти из аккаунта</a>
     <?if (!empty($_SESSION["error"])) {
     echo "<script>alert('".$_SESSION["error"]."')</script>";
-    unset($_SESSION["auth_error"]);
+    unset($_SESSION["error"]);
     };?>
 </body>
 </html>

@@ -13,7 +13,7 @@ include_once 'header.php';
     </form>
     <?if (!empty($_SESSION["error"])) {
     echo "<script>alert('".$_SESSION["error"]."')</script>";
-    unset($_SESSION["auth_error"]);
+    unset($_SESSION["error"]);
     };?>
     
 </body>
