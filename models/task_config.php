@@ -1,7 +1,7 @@
 <?php 
-if (!empty($_SESSION['user_id'])) {
+function task_config() {
     session_start();
-    require 'config.php';
+    require_once 'config.php';
     date_default_timezone_set('Etc/GMT-4');
     $created_at = date('Y/m/d H:i:s', time());
     $user_id = $_SESSION['user_id'];
@@ -37,8 +37,6 @@ if (!empty($_SESSION['user_id'])) {
         $task_not_done = $DB->prepare("UPDATE `tasks` SET `done` = '0' WHERE `user_id` = ? and `id` = ?");
         $task_not_done->execute(array($user_id, $_POST["not_done"]));
     }
-} else {
-    header("Location: ../index.php");
 }
 
 

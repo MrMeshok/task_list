@@ -1,10 +1,9 @@
 <?php 
-if ($_POST['login'] and $_POST['password']) {
+function auth($POST_login, $POST_password) {
     session_start();
     require_once 'config.php';
-
-    $login = trim($_POST['login']); 
-    $password = trim($_POST['password']); 
+    $login = trim($POST_login); 
+    $password = trim($POST_password); 
     $password_hash = password_hash($password, PASSWORD_BCRYPT);
     date_default_timezone_set('Etc/GMT-4');
     $created_at = date('Y/m/d H:i:s', time());
@@ -28,13 +27,8 @@ if ($_POST['login'] and $_POST['password']) {
 
     if ($add_user_exec or $check_user_exec) {
         $_SESSION['user_id'] = $user['id'];
-        header('Location: ../index.php');
     } else {
         unset($_SESSION['user_id']);
-        header('Location: ../index.php');
     }
-} else {
-    header('Location: ../index.php');
 }
-
 ?>
