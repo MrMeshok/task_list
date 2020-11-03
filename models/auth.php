@@ -1,7 +1,7 @@
 <?php 
 if ($_POST['login'] and $_POST['password']) {
     session_start();
-    require 'config.php';
+    require_once 'config.php';
 
     $login = trim($_POST['login']); 
     $password = trim($_POST['password']); 
@@ -28,7 +28,7 @@ if ($_POST['login'] and $_POST['password']) {
 
     if ($add_user_exec or $check_user_exec) {
         $_SESSION['user_id'] = $user['id'];
-        header('Location: ../tasks.php');
+        header('Location: ../index.php');
     } else {
         unset($_SESSION['user_id']);
         header('Location: ../index.php');

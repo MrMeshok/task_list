@@ -3,15 +3,15 @@ if (!empty($_SESSION['user_id'])) {
     require 'database/config.php';
     $user_id = $_SESSION['user_id']; 
 } else {
-    header("Location: ../index.php");
+    // header("Location: ../index.php");
 }
 $title = "Список задач";
-include_once $_SERVER['DOCUMENT_ROOT'] . '/header.php';
+include_once 'header.php';
 ?>
 
 <body>
     <div class="blocks">
-        <form id="form" action="database/task_config.php" method="POST">
+        <form id="form" action="../models/task_config.php" method="POST">
             <input type="text" name="task"><br>
             <button class="button" name="button" value="add">Добавить</button>
             <button class="button" name="button" value="clear">Удалить все задачи</button>
@@ -34,10 +34,10 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/header.php';
         ?>
     </div>
     <br>
-    <a href="database/exit.php">Выйти из аккаунта</a>
+    <a href="../models/exit.php">Выйти из аккаунта</a>
 
-    <!-- Обработка ошибок -->
-    <?if (!empty($_SESSION["error"])) {
+    <? // Обработка ошибок
+    if (!empty($_SESSION["error"])) {
     echo "<script>alert('".$_SESSION["error"]."')</script>";
     unset($_SESSION["error"]);
     };?>

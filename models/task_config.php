@@ -38,7 +38,7 @@ if (!empty($_SESSION['user_id'])) {
         $task_not_done->execute(array($user_id, $_POST["not_done"]));
     }
 } else {
-    header("Location: ../tasks.php");
+    header("Location: ../index.php");
 }
 
 

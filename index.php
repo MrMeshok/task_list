@@ -1,20 +1,11 @@
-<?php session_start();
-if (!empty($_SESSION['user_id'])) {
-    header("Location: ../tasks.php");
-}
-$title = "Авторизация";
-include_once 'header.php';
-?>
-<body>
-    <form action="database/auth.php" method="POST">
-        <input placeholder="Логин" type="text" name="login">
-        <input placeholder="Пароль" type="password" name="password">
-        <input type="submit" id="submit_enter" value="Отправить">
-    </form>
+<?// Главный контроллер
 
-    <!-- Обработка ошибок -->
-    <?if (!empty($_SESSION["error"])) {
-    echo "<script>alert('".$_SESSION["error"]."')</script>";
-    unset($_SESSION["error"]);
-    };?>
-</body>
+if (!empty($_SESSION['user_id'])) {
+    require 'database/config.php';
+    $user_id = $_SESSION['user_id'];
+    $tasks_query = $DB->query("SELECT * FROM `tasks` WHERE `user_id` = $user_id");
+    $tasks = $tasks_query -> fetchAll();
+    include_once '/views/tasks.php';
+} else {
+    include_once '/views/main.php';
+}
