@@ -1,5 +1,5 @@
 <?php session_start();
-if ($_SESSION["auth"] == True) {
+if (!empty($_SESSION['user_id'])) {
     header("Location: ../tasks.php");
 }
 $title = "Авторизация";

@@ -1,5 +1,5 @@
 <?php session_start();
-if ($_SESSION["auth"] == True) {
+if (!empty($_SESSION['user_id'])) {
     require 'database/config.php';
     $user_id = $_SESSION['user_id']; 
 } else {
