@@ -1,10 +1,10 @@
 <?
-$title = "Список задач";
-include_once 'header.php';
+// $title = "Список задач";
+// include_once 'header.php';
 ?>
 <body>
     <div class="blocks">
-        <form id="form" action="controllers/controller.php" method="POST">
+        <form id="form" action="index.php?page=tasks" method="POST">
             <input type="text" name="task"><br>
             <button class="button" name="button" value="add">Добавить</button>
             <button class="button" name="button" value="clear">Удалить все задачи</button>
@@ -23,12 +23,6 @@ include_once 'header.php';
         }?>
     </div>
     <br>
-    <a href="../models/exit.php">Выйти из аккаунта</a>
-
-    <? // Обработка ошибок
-    if (!empty($_SESSION["error"])) {
-    echo "<script>alert('".$_SESSION["error"]."')</script>";
-    unset($_SESSION["error"]);
-    };?>
+    <a href="index.php?option=exit">Выйти из аккаунта</a>
 </body>
 </html>

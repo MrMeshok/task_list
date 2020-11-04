@@ -1,15 +1,32 @@
-<?// Главный контроллер
+<?
 session_start();
+header("Content-Type:text/html;charset=UTF-8");
 
-if (!empty($_SESSION['user_id'])) {
-    // Обращение к БД
-    require_once '/models/config.php';
-    $user_id = $_SESSION['user_id'];
-    $tasks_query = $DB->query("SELECT * FROM `tasks` WHERE `user_id` = $user_id");
-    $tasks = $tasks_query -> fetchAll();
-    // Вывод вида tasks
-    include_once '/views/tasks.php';
+
+function __autoload($c) {
+    if (file_exists("controllers/".$c.".php")) {
+        require_once "controllers/".$c.".php";
+    } elseif (file_exists("models/".$c.".php")) {
+        require_once "models/".$c.".php";
+    }
+}
+
+if ($_GET['page']) {
+    $class = trim(strip_tags($_GET['page']));
 } else {
-    // Вывод вида main
-    include_once '/views/main.php';
+    $class = 'auth'; 
+}
+
+if ($_GET['option']) {
+    $option = $_GET['option'];
+}
+
+if (class_exists($class)) {
+    $obj = new $class;
+    if ($option == 'exit') {
+        $obj->destroy_session();
+    }
+    $obj->get_body($class);
+} else {
+    exit("<p>Нет данных для входа</p>");
 }
