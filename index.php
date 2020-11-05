@@ -3,13 +3,14 @@ session_start();
 header("Content-Type:text/html;charset=UTF-8");
 
 
-function __autoload($c) {
+spl_autoload_register(function ($c) {
     if (file_exists("controllers/".$c.".php")) {
         require_once "controllers/".$c.".php";
     } elseif (file_exists("models/".$c.".php")) {
         require_once "models/".$c.".php";
     }
-}
+});
+
 
 if ($_GET['page']) {
     $class = trim(strip_tags($_GET['page']));
@@ -26,7 +27,7 @@ if (class_exists($class)) {
     if ($option == 'exit') {
         $obj->destroy_session();
     }
-    $obj->get_body($class);
+    $obj->initial($class);
 } else {
     exit("<p>Нет данных для входа</p>");
 }

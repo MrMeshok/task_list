@@ -14,8 +14,8 @@
     <div class="blocks" style="color: #fff; margin-top: 3px;">
         <div class="block" style="border-bottom: 1px solid #000">Лист заданий</div>
         <?// Вывод tasks
-        foreach ($tasks as $value) {
-            if ($value['done']) {
+        foreach ($data as $value) {
+            if ($value['status'] == 'done') {
                 echo '<div class="block done">'.htmlspecialchars($value['description'], ENT_QUOTES, 'UTF-8').'<button name="delete" value="'.$value['id'].'" form="form">Удалить</button><button name="not_done" value="'.$value['id'].'" form="form">В работу</button></div>';
             }else {
                 echo '<div class="block">'.htmlspecialchars($value['description'], ENT_QUOTES, 'UTF-8').'<button name="delete" value="'.$value['id'].'" form="form">Удалить</button><button name="done" value="'.$value['id'].'" form="form">Выполнено</button></div>';
